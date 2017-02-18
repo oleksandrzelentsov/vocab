@@ -9,8 +9,8 @@
 
 {% block content %}
     <div class="center">
-        {% csrf_token %}
-        {# <input onselectstart="return false" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" class="center" type="text" name="word" id="word_field" pattern="\w{2,}" autocomplete="off" autofocus /> #}
-        <input class="center" type="text" name="word" id="word_field" pattern="\w+" autocomplete="off" autofocus />
+        <input type="text" name="word" id="word_field" pattern="\w+" autocomplete="off" autofocus />
+        <img id="done" src="{% static "words/done.png" %}" hidden />
     </div>
+    <div id="hidden_response"></div>
 {% endblock %}

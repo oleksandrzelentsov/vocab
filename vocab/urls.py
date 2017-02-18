@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from words.views import index
+from words.api import api
 
 urlpatterns = [
+    url(r'^api', api),
     url(r'^', index),
     url(r'^admin/', admin.site.urls),
 ]

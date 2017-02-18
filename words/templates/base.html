@@ -10,8 +10,8 @@
         <link rel="stylesheet" href="{% static "words/style.css" %}">
         {# scripts #}
         <script src="{% static "words/jquery-3.1.1.min.js" %}"></script>
-        <script src="{% static "words/app.js" %}"></script>
-
+        {% block header %}
+        {% endblock %}
         <!--[if lt IE 9]>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
         <![endif]-->
