@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans&subset=cyrillic,cyrillic-ext,devanagari,greek,greek-ext,latin-ext,vietnamese');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Noto Sans;
+    background-color: #212121;
+    color: #E0E0E0;
+}
+
+div, input {
+    margin: 0;
+    padding: 0;
+}
+
+.center {
+    /* border: 3px solid green; */
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #424242;
+}
+
+#word_field {
+    font-size: 25px;
+    color: #E0E0E0;
+    margin: auto;
+    /* width: 100%; */
+    padding: 7px;
+    font-family: Noto Sans;
+    border: 0;
+    -webkit-appearance:none;
+    outline: none;
+}
