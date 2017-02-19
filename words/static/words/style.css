@@ -51,6 +51,7 @@ span #done, span #error {
     position: absolute;
     width: 60px;
     height: 38px;
+    margin-left: 5px;
 }
 
 #score
@@ -63,4 +64,14 @@ span #done, span #error {
     border: 1px solid #00C853;
     background-color: #00C853;
     color: #424242;
+}
+
+#hidden_response, #words_cloud {
+    font-size: 20px;
+    font-family: Noto Sans;
+    margin: 10px;
+}
+
+#words_cloud {
+    text-align: center;
 }

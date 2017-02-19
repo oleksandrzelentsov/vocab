@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from vocab.settings import DEBUG
+from vocab.settings import DEFAULT_LANGUAGE, WORD_FILES
 from django.core.cache import cache
+from .models import update_word_cache
 
 
-words = {'a', 'o', 'i', 'e', 'u'}
+# words = {'a', 'o', 'i', 'e', 'u'}
 
 
 def api(request):
@@ -13,7 +14,9 @@ def api(request):
         guid = request.GET.get('guid')
         score = int(request.GET.get('score'))
         func = request.GET.get('func')
-
+        # if not cache.get('words'):
+        update_word_cache()
+        words = cache.get('words')
         if not guid:
             return JsonResponse({'result': 'no GUID given'})
 
@@ -28,6 +31,7 @@ def api(request):
                                  'func': 'print' if func == 'debug' else 'display_success',
                                  'what': word + ' ' + guid + ' ' + ', '.join(cache.get(guid)['words']),
                                  'score': info['score'],
+                                 'words': cache.get(guid)['words'],
                                 })
 
         cache.set(guid, info, 60 * 60)

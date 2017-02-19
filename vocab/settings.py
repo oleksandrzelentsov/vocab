@@ -128,3 +128,10 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
+
+# Word lists
+DEFAULT_LANGUAGE = 'en'
+
+WORD_FILES = {
+        'en': ['data/words.txt'],
+}

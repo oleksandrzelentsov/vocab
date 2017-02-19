@@ -10,6 +10,7 @@ var handlers = {
             $(this).fadeOut(1000);
         });
         $('#score').text('' + json.score);
+        $('#words_cloud').html(json.words.join(' '));
     },
     check_failed: function(json) {
         $('#done').hide();
