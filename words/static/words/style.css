@@ -36,12 +36,15 @@ span, div, input {
     outline: none;
 }
 
-#done {
-    width: 20px;
+span #done, span #error {
+    width: 15px;
 }
 
-#error {
-    width: 20px;
+#done, #error  {
+    width: 15px;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
 }
 
 #score_container {

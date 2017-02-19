@@ -1,37 +1,40 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from vocab.settings import DEBUG
+from django.core.cache import cache
 
 
-words = """
-Anyone who reads Old and Middle English
-literary texts will be familiar with the
-mid-brown volumes of the EETS, with the symbol
-of Alfred's jewel embossed on the front
-cover. Most of the works attributed to King
-Alfred or to Aelfric, along with some of
-those by bishop Wulfstan and much anonymous
-prose and verse from the pre-Conquest period,
-are to be found within the Society's three
-series; all of the surviving medieval
-drama, most of the Middle English romances,
-much religious and secular prose and verse
-including the English works of John Gower,
-Thomas Hoccleve and most of Caxton's prints
-all find their place in the publications.
-Without EETS editions, study of medieval
-English texts would hardly be possible.""".split()
-words = set(map(lambda x: x.replace('.', '').replace(',', ''), words))
+words = {'a', 'o', 'i', 'e', 'u'}
 
 
 def api(request):
-    word = request.GET.get('word')
-    if word in words:
-        return JsonResponse({'result': 'success',
-                             'func': 'display_success',
-                             'what': word,
-                            })
-    else:
+    try:
+        word = request.GET.get('word')
+        guid = request.GET.get('guid')
+        score = int(request.GET.get('score'))
+        func = request.GET.get('func')
+
+        if not guid:
+            return JsonResponse({'result': 'no GUID given'})
+
+        info = cache.get(guid, {'words': [],
+                                'score': score})
+
+        if (word not in info['words']) and word in words:
+            info['score'] += 1
+            info['words'].append(word)
+            cache.set(guid, info, 60 * 60)
+            return JsonResponse({'result': 'success',
+                                 'func': 'print' if func == 'debug' else 'display_success',
+                                 'what': word + ' ' + guid + ' ' + ', '.join(cache.get(guid)['words']),
+                                 'score': info['score'],
+                                })
+
+        cache.set(guid, info, 60 * 60)
         return JsonResponse({'result': 'success',
                              'func': 'check_failed',
                              'what': word,
                             })
+    except Exception as e:
+        return JsonResponse({'result': str(e)})
+

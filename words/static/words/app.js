@@ -9,8 +9,7 @@ var handlers = {
         $('#done').fadeIn(250, function() {
             $(this).fadeOut(1000);
         });
-        var score = parseInt($('#score').text()) + 1;
-        $('#score').text('' + score);
+        $('#score').text('' + json.score);
     },
     check_failed: function(json) {
         $('#done').hide();
@@ -18,10 +17,26 @@ var handlers = {
             $(this).fadeOut(1000);
         });
     },
+    failure: function(json) {
+        $('#done').hide();
+        $('#error').fadeIn(250, function() {
+            $(this).fadeOut(1000);
+        });
+        $('#hidden_response').html(json.result + '<br>');
+    }
 };
+
+function createGuid()
+{
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+}
 
 $(document).ready(function() {
     console.log('hello world');
+    document.guid = createGuid();
     $('body').on('copy paste', 'input#word_field', function (e) {
         e.preventDefault();
     });
@@ -42,11 +57,14 @@ $(document).ready(function() {
                 url: 'api',
                 data: {
                     word: data,
+                    guid: document.guid,
                     func: 'check',
+                    score: parseInt($('#score').text()),
                 },
             }).done(function(json) {
-                if (json.result != 'success')
-                    return;
+                if (json.result != 'success') {
+                    handlers['failure'](json);
+                }
                 handlers[json.func](json);
             });
         }
