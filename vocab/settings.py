@@ -133,5 +133,5 @@ CACHES = {
 DEFAULT_LANGUAGE = 'en'
 
 WORD_FILES = {
-        'en': ['data/words.txt'],
+        'en': ['data/english-words/words.txt'],
 }
