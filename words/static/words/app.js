@@ -5,8 +5,17 @@ var handlers = {
         $('#hidden_response').append(json.what + '<br>');
     },
     display_success: function(json) {
-        $('#done').fadeIn(500, function() {
-            $(this).fadeOut(1500);
+        $('#error').hide();
+        $('#done').fadeIn(250, function() {
+            $(this).fadeOut(1000);
+        });
+        var score = parseInt($('#score').text()) + 1;
+        $('#score').text('' + score);
+    },
+    check_failed: function(json) {
+        $('#done').hide();
+        $('#error').fadeIn(250, function() {
+            $(this).fadeOut(1000);
         });
     },
 };

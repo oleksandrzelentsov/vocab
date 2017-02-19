@@ -9,8 +9,18 @@
 
 {% block content %}
     <div class="center">
-        <input type="text" name="word" id="word_field" pattern="\w+" autocomplete="off" autofocus />
-        <img id="done" src="{% static "words/done.png" %}" hidden />
+        <span id="score">
+            0
+        </span>
+        <span>
+            <input type="text" name="word" id="word_field" pattern="\w+" autocomplete="off" autofocus />
+        </span>
+        <span>
+            <img id="done" src="{% static "words/done.png" %}" hidden />
+        </span>
+        <span>
+            <img id="error" src="{% static "words/error.png" %}" hidden />
+        </span>
     </div>
     <div id="hidden_response"></div>
 {% endblock %}
