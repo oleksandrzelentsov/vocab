@@ -1,27 +1,23 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from vocab.settings import DEFAULT_LANGUAGE, WORD_FILES
 from django.core.cache import cache
+from django.http import JsonResponse
 from .models import update_word_cache
 
 
-# words = {'a', 'o', 'i', 'e', 'u'}
-
-
-def api(request):
+def check(request):
     try:
         word = request.GET.get('word')
         guid = request.GET.get('guid')
-        score = int(request.GET.get('score'))
+        if guid is None:
+            return JsonResponse({'result': 'no guid'})
         func = request.GET.get('func')
-        # if not cache.get('words'):
-        update_word_cache()
+        # if func is None:
+        #     return JsonResponse({'result': 'no func'})
+        if not cache.get('words'):
+            update_word_cache()
         words = cache.get('words')
-        if not guid:
-            return JsonResponse({'result': 'no GUID given'})
 
         info = cache.get(guid, {'words': [],
-                                'score': score})
+                                'score': 0})
 
         if (word not in info['words']) and word in words:
             info['score'] += 1
@@ -32,13 +28,12 @@ def api(request):
                                  'what': word + ' ' + guid + ' ' + ', '.join(cache.get(guid)['words']),
                                  'score': info['score'],
                                  'words': cache.get(guid)['words'],
-                                })
+                                 })
 
         cache.set(guid, info, 60 * 60)
         return JsonResponse({'result': 'success',
                              'func': 'check_failed',
                              'what': word,
-                            })
+                             })
     except Exception as e:
         return JsonResponse({'result': str(e)})
-

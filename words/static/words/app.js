@@ -27,14 +27,6 @@ var handlers = {
     }
 };
 
-function createGuid()
-{
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-    });
-}
-
 $(document).ready(function() {
     console.log('hello world');
     document.guid = createGuid();
@@ -55,12 +47,12 @@ $(document).ready(function() {
             $('input#word_field[type=text]').val('');
             if(data == '') { return false; }
             $.ajax({
-                url: 'api',
+                url: '/api/check',
                 data: {
                     word: data,
                     guid: document.guid,
                     func: 'check',
-                    score: parseInt($('#score').text()),
+                    // score: parseInt($('#score').text()),
                 },
             }).done(function(json) {
                 if (json.result != 'success') {
