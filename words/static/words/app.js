@@ -50,10 +50,10 @@ $(document).ready(function() {
             return false;
         }
 
-        if(event.key == 'Enter') {
+        if(event.key === 'Enter') {
             var data = $('input#word_field[type=text]').val();
             $('input#word_field[type=text]').val('');
-            if(data == '') { return false; }
+            if(data === '') { return false; }
             $.ajax({
                 url: 'api',
                 data: {
@@ -61,9 +61,9 @@ $(document).ready(function() {
                     guid: document.guid,
                     func: 'check',
                     score: parseInt($('#score').text()),
-                },
+                }
             }).done(function(json) {
-                if (json.result != 'success') {
+                if (json.result !== 'success') {
                     handlers['failure'](json);
                 }
                 handlers[json.func](json);
