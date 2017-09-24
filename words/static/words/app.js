@@ -51,8 +51,9 @@ $(document).ready(function() {
         }
 
         if(event.key === 'Enter') {
-            var data = $('input#word_field[type=text]').val();
-            $('input#word_field[type=text]').val('');
+            var element = $('input#word_field[type=text]');
+            var data = element.val();
+            element.val('');
             if(data === '') { return false; }
             $.ajax({
                 url: 'api',
@@ -60,13 +61,15 @@ $(document).ready(function() {
                     word: data,
                     guid: document.guid,
                     func: 'check',
-                    score: parseInt($('#score').text()),
+                    score: parseInt($('#score').text())
                 }
             }).done(function(json) {
                 if (json.result !== 'success') {
                     handlers['failure'](json);
                 }
-                handlers[json.func](json);
+                else {
+                    handlers[json.func](json);
+                }
             });
         }
     });
